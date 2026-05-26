@@ -1,19 +1,24 @@
-# Data Stack ELT Pipeline
+# Market Analytics Data Pipeline
 
-A production-grade Data Engineering pipeline that demonstrates automated data ingestion, orchestration, and cloud data warehousing using the Data Stack ecosystem.
+## Overview
+This repository contains an end-to-end ELT data pipeline simulating a modern data stack. It processes multi-currency market transactions, standardizes financial metrics to a base currency (EUR), and applies business logic to categorize transactions.
 
-## Architecture Overview
-* **Data Source:** Custom Python ingestion script generating synthetic transactional market data (orders, regional currencies like AMD/GBP/EUR, platforms, and statuses).
-* **Orchestration:** **Prefect** managing workflow execution, task dependencies, and state tracking.
-* **Cloud Data Warehouse:** **Google BigQuery** serving as the centralized repository for raw data storage (`market_analytics_raw`).
-
-## Tech Stack
-* **Language:** Python
-* **Orchestration:** Prefect
-* **Storage:** Google BigQuery (Cloud Data Warehouse)
-* **Data Manipulation:** Pandas
+## Architecture
+* Data Warehouse: DuckDB
+* Transformation: dbt (Data Build Tool)
+* Orchestration & Ingestion: Python
 
 ## Project Structure
-* `scripts/etl_pipeline.py` - Core Python script containing Prefect flows and tasks for data generation and BigQuery loading.
-* `gcp_creds.json` - Google Cloud Service Account credentials (secured and excluded via `.gitignore`).
-* `.gitignore` - Safeguards sensitive infrastructure credentials and local cache files.
+* `scripts/`: Python scripts for data ingestion and pipeline orchestration
+* `models/staging/`: dbt models for data cleansing and type casting
+* `models/marts/`: Final business-level aggregations and enriched data marts
+* `tests/`: Automated data quality checks defined in dbt
+
+## Setup & Execution
+python -m venv venv
+venv\Scripts\activate
+pip install duckdb pandas dbt-duckdb
+
+python scripts/etl_pipeline.py
+
+python scripts/show_data.py
